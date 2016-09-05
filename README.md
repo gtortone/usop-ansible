@@ -1,4 +1,4 @@
-# Ansible playbook for uSOP boards configuration
+## Ansible playbook for uSOP boards configuration
 
 Ansible (www.ansible.com) is a free tool to manage systems and deploy applications on Linux distro.
 
@@ -12,4 +12,14 @@ This repository provides four roles to manage different configuration aspects of
 
 - ecl-mon: installation and configuration of Belle2 ECL Monitor for remote visualization of ECL data
 
-# Playbook configuration
+## Playbook configuration
+
+* common
+  * group_vars/all   : default timezone, DNS servers, NTP servers, HTTP proxy server
+  * group_vars/*site*: site specific configuration 
+
+* epics
+** roles/epics/files : directory for EPICS tarball (epics.tar.gz)
+
+* ecl-ioc
+** host_vars/*host* : Belle2 ECL IOC configuration
