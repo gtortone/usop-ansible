@@ -9,3 +9,7 @@ This repository provides four roles to manage different configuration aspects of
 - epics: installation and configuration of EPICS tarball for uSOP
 
 - ecl-ioc: checkout of Belle2 ECL EPICS IOC with configuration and installation
+
+- ecl-mon: installation and configuration of Belle2 ECL Monitor for remote visualization of ECL data
+
+# Playbook configuration
