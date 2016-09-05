@@ -30,3 +30,14 @@ This repository provides four roles to manage different configuration aspects of
 
 * ecl-mon
   * 
+
+## Usage
+
+To run whole Ansible master playbook on a specified host:
+
+`ansible-playbook -e hosts=usop site.yml`
+
+To run only a specified role (with tag):
+
+`ansible-playbook -e hosts=usop --tags=ecl-ioc site.yml`
+
