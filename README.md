@@ -4,13 +4,17 @@ Ansible (www.ansible.com) is a free tool to manage systems and deploy applicatio
 
 This repository provides four roles to manage different configuration aspects of uSOP:
 
-- common: base configuration of Linux Debian
+* common
+  * base configuration of Linux Debian
 
-- epics: installation and configuration of EPICS tarball for uSOP
+* epics
+  * installation and configuration of EPICS tarball for uSOP
 
-- ecl-ioc: checkout of Belle2 ECL EPICS IOC with configuration and installation
+* ecl-ioc
+  * checkout of Belle2 ECL EPICS IOC with configuration and installation
 
-- ecl-mon: installation and configuration of Belle2 ECL Monitor for remote visualization of ECL data
+* ecl-mon
+  * installation and configuration of Belle2 ECL Monitor for remote visualization of ECL data
 
 ## Playbook configuration
 
@@ -23,3 +27,6 @@ This repository provides four roles to manage different configuration aspects of
 
 * ecl-ioc
   * host_vars/*host* : Belle2 ECL IOC configuration
+
+* ecl-mon
+  * 
