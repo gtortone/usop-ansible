@@ -1,0 +1,16 @@
+---
+
+tz: "Asia/Tokyo"
+
+domain: "kek.jp"
+
+dns:
+  - 130.87.24.2
+  - 130.87.224.4
+  - 130.87.34.2
+
+ntp:
+  - server 0.asia.pool.ntp.org
+  - server 1.asia.pool.ntp.org
+  - server 2.asia.pool.ntp.org
+  - server 3.asia.pool.ntp.org

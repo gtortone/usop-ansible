@@ -1,0 +1,80 @@
+---
+- name: Install required packages
+  action: apt pkg={{item}} state=installed
+  with_items:
+    - make
+
+- name: Setup GIT environment
+  git_config: name=user.name value="Gennaro Tortone"
+
+- git_config: name=user.email value="gennaro.tortone@na.infn.it"
+
+- git_config: name=core.editor value="vi"
+
+- name: GIT clone of LTC2983-ioc repository
+  git: repo=git://github.com/gtortone/LTC2983-ioc.git dest=/opt/LTC2983-ioc update=no
+
+- name: Make LTC2983-ioc 
+  make: chdir=/opt/LTC2983-ioc
+
+- set_fact:
+    eth01_network: "192.168.110"
+    eth02_network: "192.168.220"
+    eth01_host: "{{ ecl_ioc_first_sector }}"
+    eth02_host: "{{ ecl_ioc_first_sector | int + 2 }}"
+  when: ecl_ioc_type == "forward"
+
+- name: Setup virtual network interfaces eth0:1 and eth0:2 for ECL forward
+  template: src=interfaces.j2 dest=/etc/network/interfaces
+  when: ecl_ioc_type == "forward"
+  notify: Restart network
+
+- set_fact:
+    eth01_network: "192.168.120"
+    eth02_network: "192.168.240"
+    eth01_host: "{{ ecl_ioc_first_sector }}"
+    eth02_host: "{{ ecl_ioc_first_sector | int + 2 }}"
+  when: ecl_ioc_type == "backward"
+
+- name: Setup virtual network interfaces eth0:1 and eth0:2 for ECL backward
+  template: src=interfaces.j2 dest=/etc/network/interfaces
+  when: ecl_ioc_type == "backward"
+  notify: Restart network
+
+- name: Copy EPICS IOC startup scripts in /etc/init.d
+  command: cp /opt/LTC2983-ioc/scripts/{{item}} /etc/init.d/{{item}}
+  with_items: 
+    - epics-gateway
+    - epics-LTC2983
+
+- name: Setup first ECL IOC init file
+  blockinfile:
+    dest: /opt/LTC2983-ioc/iocBoot/iocLTC2983/ioc-spi01.cmd
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: "## sectors name config"
+    state: present
+    block: |
+      epicsEnvSet("SNAME_A","{{ecl_ioc_sec_prefix}}{{ecl_ioc_first_sector}}{{ecl_ioc_sec_suffix}}")
+      epicsEnvSet("SNAME_B","{{ecl_ioc_sec_prefix}}{{ecl_ioc_first_sector | int + 1}}{{ecl_ioc_sec_suffix}}")
+
+- name: Setup second ECL IOC init file
+  blockinfile:
+    dest: /opt/LTC2983-ioc/iocBoot/iocLTC2983/ioc-spi02.cmd
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: "## sectors name config"
+    state: present
+    block: |
+      epicsEnvSet("SNAME_A","{{ecl_ioc_sec_prefix}}{{ecl_ioc_first_sector | int + 2}}{{ecl_ioc_sec_suffix}}")
+      epicsEnvSet("SNAME_B","{{ecl_ioc_sec_prefix}}{{ecl_ioc_first_sector | int + 3}}{{ecl_ioc_sec_suffix}}")
+
+- name: Start EPICS PV Gateway and EPICS ECL IOC
+  service: name={{item}} state=restarted
+  with_items:
+    - epics-gateway
+    - epics-LTC2983
+
+- name: Set EPICS PV Gateway and EPICS ECL IOC to start at boot time
+  service: name={{item}} enabled=yes runlevel=2
+  with_items:
+    - epics-gateway
+    - epics-LTC2983

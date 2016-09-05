@@ -1,0 +1,28 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+auto eth0:1
+iface eth0:1 inet static
+ address {{ eth01_network }}.{{ eth01_host }}
+ netmask 255.255.255.0
+ network {{ eth01_network }}.0
+
+auto eth0:2
+iface eth0:2 inet static
+ address {{ eth02_network }}.{{ eth02_host }}
+ netmask 255.255.255.0
+ network {{ eth02_network }}.0
+
+iface usb0 inet static
+    address 192.168.7.2
+    netmask 255.255.255.0
+    network 192.168.7.0
+    gateway 192.168.7.1
+

@@ -1,0 +1,12 @@
+---
+
+domain: "na.infn.it"
+
+dns:
+  - 192.84.134.55
+  - 192.84.134.50
+
+ntp:
+  - ntp-1.infn.it
+  - ntp-2.infn.it
+  - ntp-3.infn.it

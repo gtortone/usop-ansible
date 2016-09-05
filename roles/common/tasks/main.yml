@@ -1,0 +1,101 @@
+---
+- name: Set hostname to {{ inventory_hostname }}
+  hostname: name={{ inventory_hostname }}
+
+- name: Set /etc/hosts with {{ inventory_hostname }}
+  template: src=hosts.j2 dest=/etc/hosts
+
+- name: Set /etc/resolv.conf 
+  template: src=resolv.j2 dest=/etc/resolv.conf 
+
+- name: Set and generate en_US.UTF-8 locale
+  locale_gen: name=en_US.UTF-8 state=present
+
+- name: Set timezone to {{ tz }}
+  template: src=timezone.j2 dest=/etc/timezone
+
+- name: Configure U-Boot for SPI0 and SPI1
+  lineinfile: dest=/boot/uEnv.txt regexp="^cape_enable" line="cape_enable=capemgr.enable_partno=BB-SPIDEV0,BB-SPIDEV1,BB-UART1,BB-UART4,BB-ADC"
+
+- name: Update APT cache
+  apt: update_cache=yes
+
+- name: Install RCN updated keyring
+  apt: pkg=rcn-ee-archive-keyring state=installed force=yes
+
+- name: Install required packages
+  action: apt pkg={{item}} state=installed
+  with_items:
+    - vim
+    - screen
+    - bash-completion
+    - dnsutils
+    - ntp
+    - ntpdate
+
+- name: Configure ntp service
+  template: src=ntp.j2 dest=/etc/ntp.conf
+  notify:
+    - Restart ntpd
+
+- name: Manual synchronization of date/time with ntpdate
+  action: command {{item}}
+  with_items:
+    - /etc/init.d/ntp stop
+    - /usr/sbin/ntpdate-debian
+    - /sbin/hwclock --systohc
+    - /etc/init.d/ntp start
+
+- name: Copy SSH public key to root user
+  authorized_key: user=root key="{{ lookup('file', lookup('env','HOME') + '/.ssh/MY_id_rsa.pub') }}" state=present
+
+- name: Setup ssh daemon to not use DNS
+  blockinfile:
+    dest: /etc/ssh/sshd_config
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: EOF
+    state: present
+    block: |
+      UseDNS no
+  notify:
+    - Restart sshd
+
+# generate password with 'mkpasswd --method=sha-512'
+- name: Set a new password for root user
+  user: name=root shell=/bin/bash password="$6$mGU93au5qOmg/V1$ifhMh6I01MUkebWdxDOMLwemI0rXzs9Earw.N7QCW6qsb0/MWBze0VtPMzunnh6CJo2CcxtKTMXdzFU0gaRH7/"
+
+- name: Delete 'debian' user
+  user: name=debian state=absent remove=yes
+
+- name: Set cpufreq to 1000 MHz (performance)
+  copy: src=cpufrequtils dest=/etc/default/cpufrequtils
+  notify: Restart cpufrequtils
+
+- name: Copy .bashrc for root user
+  copy: src=dot.bashrc dest=/root/.bashrc
+
+- name: Set http proxy environment variables for apt and git
+  blockinfile:
+    dest: /root/.bashrc
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: EOF
+    state: present
+    block: |
+      export HTTPS_PROXY="{{proxy}}"
+      export HTTP_PROXY="{{proxy}}"
+      export http_proxy="{{proxy}}"
+      export https_proxy="{{proxy}}"
+  when: proxy is defined
+
+- name: Set /etc/vim/vimrc
+  copy: src=vimrc dest=/etc/vim/vimrc
+
+- name: Set /etc/bash.bashrc
+  copy: src=bash.bashrc dest=/etc/bash.bashrc
+
+- name: Set /etc/issue
+  copy: src=issue dest=/etc/issue
+
+- name: Copy uSOP device tree
+  copy: src=am335x-boneblack.dtb dest=/boot/dtbs/3.8.13-bone67
+

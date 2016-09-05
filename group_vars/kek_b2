@@ -1,0 +1,13 @@
+---
+
+tz: "Asia/Tokyo"
+
+domain: "b2epics.kek.jp"
+
+dns:
+  - 172.22.48.4
+
+ntp:
+  - 172.22.48.4
+
+proxy: http://172.22.48.7:8080
