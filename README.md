@@ -19,7 +19,7 @@ This repository provides four roles to manage different configuration aspects of
   * group_vars/*site*: site specific configuration 
 
 * epics
-** roles/epics/files : directory for EPICS tarball (epics.tar.gz)
+  * roles/epics/files : directory for EPICS tarball (epics.tar.gz)
 
 * ecl-ioc
-** host_vars/*host* : Belle2 ECL IOC configuration
+  * host_vars/*host* : Belle2 ECL IOC configuration
