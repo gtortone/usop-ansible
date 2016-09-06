@@ -1,0 +1,59 @@
+---
+- name: Add backports repository (wheezy-backports-sloppy)
+  apt_repository: repo='deb http://ftp.debian.org/debian wheezy-backports-sloppy main' state=present
+
+- name: Install required packages from backports
+  action: apt pkg={{item}} default_release=wheezy-backports-sloppy state=installed
+  with_items:
+    - collectd
+    - collectd-core
+    - collectd-utils
+    - python-pip
+    - python-virtualenv
+
+- name: Upgrade Python pip
+  pip: name=pip state=latest
+
+- name: Install PyEpics and PyYaml libraries
+  pip: name={{item}} state=present
+  with_items:
+    - pyepics
+    - pyyaml
+
+- name: Configure collectd with collector URL {{collector_url}}
+  template: src=collectd.j2 dest=/etc/collectd/collectd.conf
+  notify:
+    - Restart collectd
+
+- name: Enable logging of collectd (1/2)
+  file: path=/var/log/collectd.log state=touch mode=0644
+
+- name: Enable logging of collectd (2/2)
+  copy: src=collectd.logrotate dest=/etc/logrotate.d/collectd 
+
+- name: Install custom collectd init script (due uSOP RTC missing)
+  copy: src=collectd.init dest=/etc/init.d/collectd mode=0755
+
+- name: Install collectd Belle2 ECL monitor plugin (1/2)
+  file: path=/opt/collectd-plugins state=directory mode=0755
+
+- name: Install collectd Belle2 ECL monitor plugin (2/2)
+  get_url: url=https://raw.githubusercontent.com/gtortone/b2-eclmon/master/client/src/b2-eclmon.py dest=/opt/collectd-plugins mode=0755
+  notify:
+    - Restart collectd
+
+- name: Configure collectd Belle2 ECL monitor plugin
+  template: src=b2-ecl-sec.j2 dest=/opt/collectd-plugins/b2-ecl-sec.yaml
+  notify:
+    - Restart collectd
+
+- name: Setup /etc/bash.bashrc with PyEpics environment
+  blockinfile:
+    dest: /etc/bash.bashrc
+    marker: "# {mark} ANSIBLE ecl-mon MANAGED BLOCK"
+    insertafter: EOF
+    state: present
+    block: |
+      export PYEPICS_LIBCA=/opt/epics/base/lib/linux-arm/libca.so
+
+
