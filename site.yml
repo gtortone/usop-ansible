@@ -18,13 +18,6 @@
 # To run only a specified role (with tag):
 # ansible-playbook -e hosts=usop --tags=ecl-ioc site.yml
 #
-# ---
-#
-# role: ecl-ioc
-#
-# to set EPICS IOC ECL type (forward or backward) and sectors refer to:
-#
-# host_vars/<hostname>
 
 ---
 - name: Setup uSOP, install EPICS and B2 ECL monitoring IOC
@@ -35,4 +28,4 @@
     - { role: common, tags: [ 'common' ] }
     - { role: epics, tags: [ 'epics' ] }
     - { role: ecl-ioc, tags: [ 'ecl-ioc' ] }
-#    - { role: ecl-mon, tags: [ 'ecl-mon' ] }
+    - { role: ecl-mon, tags: [ 'ecl-mon' ] }
