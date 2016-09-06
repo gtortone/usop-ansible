@@ -29,7 +29,7 @@ This repository provides four roles to manage different configuration aspects of
   * host_vars/*host* : Belle2 ECL IOC configuration
 
 * ecl-mon
-  * 
+  * group_vars/*site* : Belle2 ECL monitor collector URL
 
 ## Usage
 
