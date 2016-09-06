@@ -8,7 +8,7 @@
 - name: Setup /etc/bash.bashrc with EPICS environment variables
   blockinfile: 
     dest: /etc/bash.bashrc 
-    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    marker: "# {mark} ANSIBLE epics MANAGED BLOCK"
     insertafter: EOF
     state: present
     block: |
