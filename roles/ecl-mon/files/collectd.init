@@ -9,7 +9,7 @@
 
 ### BEGIN INIT INFO
 # Provides:          collectd
-# Required-Start:    $local_fs $remote_fs
+# Required-Start:    $local_fs $remote_fs ntp
 # Required-Stop:     $local_fs $remote_fs
 # Should-Start:      $network $named $syslog $time cpufrequtils
 # Should-Stop:       $network $named $syslog
@@ -93,11 +93,6 @@ d_start() {
 		log_progress_msg "not starting, configuration error"
 		return 2
 	fi
-
-        /etc/init.d/ntp stop
-        /usr/sbin/ntpdate-debian
-        /sbin/hwclock --systohc
-        /etc/init.d/ntp start
 
 	if test "$USE_COLLECTDMON" == 1; then
 		start-stop-daemon --start --quiet --oknodo --pidfile "$PIDFILE" \
