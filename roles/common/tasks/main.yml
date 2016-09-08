@@ -17,6 +17,15 @@
 - name: Configure U-Boot for SPI0 and SPI1
   lineinfile: dest=/boot/uEnv.txt regexp="^cape_enable" line="cape_enable=capemgr.enable_partno=BB-SPIDEV0,BB-SPIDEV1,BB-UART1,BB-UART4,BB-ADC"
 
+- name: Enable USB serial
+  blockinfile: 
+    dest: /etc/modules
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: EOF
+    state: present
+    block: |
+      g_serial
+
 - name: Update APT cache
   apt: update_cache=yes
 
