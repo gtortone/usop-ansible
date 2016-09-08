@@ -41,6 +41,9 @@
   when: ecl_ioc_type == "backward"
   notify: Restart network
 
+# flush all handlers to allow startup of epics-gateway
+- meta: flush_handlers
+
 - name: Copy EPICS IOC startup scripts in /etc/init.d
   command: cp /opt/LTC2983-ioc/scripts/{{item}} /etc/init.d/{{item}}
   with_items: 
