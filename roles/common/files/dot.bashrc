@@ -18,6 +18,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 
 # include alias and variables
-for conf in $HOME/.bash.conf.d/*
-  do . $conf
+for conf in $HOME/.bash.conf.d/*; do
+  test -f "$conf" || continue
+  . $conf
 done
