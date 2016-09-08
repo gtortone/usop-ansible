@@ -6,14 +6,4 @@
   unarchive: src=epics.tar.gz dest=/opt/epics creates=/opt/epics/base
 
 - name: Setup /etc/bash.bashrc with EPICS environment variables
-  blockinfile: 
-    dest: /etc/bash.bashrc 
-    marker: "# {mark} ANSIBLE epics MANAGED BLOCK"
-    insertafter: EOF
-    state: present
-    block: |
-      export EPICS_BASE="/opt/epics/base"
-      export EPICS_HOST_ARCH=`${EPICS_BASE}/startup/EpicsHostArch`
-      export PATH="${PATH}:${EPICS_BASE}/bin/${EPICS_HOST_ARCH}"
-      export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${EPICS_BASE}/lib/${EPICS_HOST_ARCH}"
-
+  template: src=epics.j2 dest=/root/.bash.conf.d/epics.sh

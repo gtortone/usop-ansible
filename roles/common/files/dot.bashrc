@@ -16,3 +16,8 @@ alias l='ls $LS_OPTIONS -lA'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+
+# include alias and variables
+for conf in $HOME/.bash.conf.d/*
+  do . $conf
+done

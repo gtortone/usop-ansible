@@ -51,12 +51,4 @@
     - Restart collectd
 
 - name: Setup /etc/bash.bashrc with PyEpics environment
-  blockinfile:
-    dest: /etc/bash.bashrc
-    marker: "# {mark} ANSIBLE ecl-mon MANAGED BLOCK"
-    insertafter: EOF
-    state: present
-    block: |
-      export PYEPICS_LIBCA=/opt/epics/base/lib/linux-arm/libca.so
-
-
+  template: src=pyepics.j2 dest=/root/.bash.conf.d/pyepics.sh

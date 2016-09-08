@@ -76,20 +76,14 @@
   copy: src=cpufrequtils dest=/etc/default/cpufrequtils
   notify: Restart cpufrequtils
 
+- name: Create bash config directory
+  file: path=/root/.bash.conf.d state=directory
+
 - name: Copy .bashrc for root user
   copy: src=dot.bashrc dest=/root/.bashrc
 
 - name: Set http proxy environment variables for apt and git
-  blockinfile:
-    dest: /root/.bashrc
-    marker: "# {mark} ANSIBLE common MANAGED BLOCK"
-    insertafter: EOF
-    state: present
-    block: |
-      export HTTPS_PROXY="{{proxy}}"
-      export HTTP_PROXY="{{proxy}}"
-      export http_proxy="{{proxy}}"
-      export https_proxy="{{proxy}}"
+  template: src=proxy.j2 dest=/root/.bash.conf.d/proxy.sh
   when: proxy is defined
 
 - name: Set /etc/vim/vimrc
