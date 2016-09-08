@@ -3,7 +3,7 @@
   service: name=cpufrequtils state=restarted enabled=yes
 
 - name: Restart ntpd
-  service: name=ntpd state=restarted enabled=yes
+  service: name=ntp state=restarted enabled=yes
 
 - name: Restart sshd
   service: name=ssh state=restarted enabled=yes
