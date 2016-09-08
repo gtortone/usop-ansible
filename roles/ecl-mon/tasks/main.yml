@@ -2,14 +2,18 @@
 - name: Add backports repository (wheezy-backports-sloppy)
   apt_repository: repo='deb http://ftp.debian.org/debian wheezy-backports-sloppy main' state=present
 
+- name: Install required packages
+  action: apt pkg={{item}} state=installed
+  with_items:
+    - python-pip
+    - python-virtualenv
+
 - name: Install required packages from backports
   action: apt pkg={{item}} default_release=wheezy-backports-sloppy state=installed
   with_items:
     - collectd
     - collectd-core
     - collectd-utils
-    - python-pip
-    - python-virtualenv
 
 - name: Upgrade Python pip
   pip: name=pip state=latest
