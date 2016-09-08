@@ -73,6 +73,13 @@ check_config() {
 #   2 if the daemon could not be started
 #   3 if the daemon was not supposed to be started
 d_start() {
+
+        log_progress_msg "Waiting for ntpd complete startup..."
+        while [ ! -f /var/run/ntpd.pid ]
+        do
+          sleep 1
+        done
+
 	if test "$DISABLE" != 0; then
 		# we get here during restart
 		log_progress_msg "disabled by /etc/default/$NAME"
