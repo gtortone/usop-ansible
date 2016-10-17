@@ -12,7 +12,7 @@
 - git_config: name=core.editor value="vi"
 
 - name: GIT clone of LTC2983-ioc repository
-  git: repo=git://github.com/gtortone/LTC2983-ioc.git dest=/opt/LTC2983-ioc update=no
+  git: repo=https://github.com/gtortone/LTC2983-ioc.git dest=/opt/LTC2983-ioc update=no
 
 - name: Make LTC2983-ioc 
   make: chdir=/opt/LTC2983-ioc
