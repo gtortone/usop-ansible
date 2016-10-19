@@ -1,0 +1,10 @@
+
+[kek_b2]
+usopfw01 ansible_ssh_host=172.22.49.56
+usopfw02 ansible_ssh_host=172.22.49.57
+usopfw03 ansible_ssh_host=172.22.49.58
+usopfw04 ansible_ssh_host=172.22.49.59
+usopbw01 ansible_ssh_host=172.22.49.60
+usopbw02 ansible_ssh_host=172.22.49.61
+usopbw03 ansible_ssh_host=172.22.49.62
+usopbw04 ansible_ssh_host=172.22.49.63
