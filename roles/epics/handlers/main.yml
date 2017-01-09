@@ -1,0 +1,3 @@
+---
+- name: Run ldconfig
+  action: command /sbin/ldconfig

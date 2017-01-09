@@ -29,8 +29,10 @@
   notify:
     - Restart collectd
 
-- name: Increase collectd stop wait time
-  lineinfile: dest=/etc/default/collectd regexp="^MAXWAIT" line="MAXWAIT=60"
+- name: Configure collectd default vars
+  template: src=collectd.default.j2 dest=/etc/default/collectd
+  notify:
+    - Restart collectd
 
 - name: Enable logging of collectd (1/2)
   file: path=/var/log/collectd.log state=touch mode=0644

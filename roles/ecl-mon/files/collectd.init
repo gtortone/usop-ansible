@@ -22,12 +22,6 @@
 
 . /lib/lsb/init-functions
 
-export PATH=/sbin:/bin:/usr/sbin:/usr/bin
-export PYEPICS_LIBCA=/opt/epics/base/lib/linux-arm/libca.so
-export EPICS_BASE=/opt/epics/base
-export EPICS_HOST_ARCH=linux-arm
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${EPICS_BASE}/lib/${EPICS_HOST_ARCH}"
-
 DISABLE=0
 
 DESC="statistics collection and monitoring daemon"

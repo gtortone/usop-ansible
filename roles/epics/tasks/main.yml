@@ -7,3 +7,8 @@
 
 - name: Setup /etc/bash.bashrc with EPICS environment variables
   template: src=epics.j2 dest=/root/.bash.conf.d/epics.sh
+
+- name: Setup EPICS libraries
+  copy: src=epics.conf dest=/etc/ld.so.conf.d/epics.conf owner=root group=root mode=0644
+  notify:
+    - Run ldconfig
