@@ -49,6 +49,10 @@ Interval 10
 <Plugin write_http>
   <Node "http-collector">
     URL "{{collector_url}}"
+    User "{{collector_user}}"
+    Password "{{collector_pass}}"
+    VerifyHost false
+    VerifyPeer false
     Format "JSON"
     BufferSize 1024
     StoreRates true

@@ -13,3 +13,6 @@ ntp:
 proxy: http://172.22.48.7:8080
 
 collector_url: http://b2ecl.na.infn.it:8800/put/
+collector_user: admin
+collector_pass: 4dm1n
+

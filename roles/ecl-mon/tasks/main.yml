@@ -8,12 +8,19 @@
     - python-pip
     - python-virtualenv
 
-- name: Install required packages from backports
-  action: apt pkg={{item}} default_release=wheezy-backports-sloppy state=installed
+- name: Install patched collectd based on backports release
+  action: apt deb={{item}} 
   with_items:
-    - collectd
-    - collectd-core
-    - collectd-utils
+    - https://github.com/gtortone/usop-ansible/raw/master/roles/ecl-mon/files/collectd_5.5.2-1~bpo7%2B1_armhf.deb
+    - https://github.com/gtortone/usop-ansible/raw/master/roles/ecl-mon/files/collectd-core_5.5.2-1~bpo7%2B1_armhf.deb
+    - https://github.com/gtortone/usop-ansible/raw/master/roles/ecl-mon/files/collectd-utils_5.5.2-1~bpo7%2B1_armhf.deb
+
+#- name: Install required packages from backports
+#  action: apt pkg={{item}} default_release=wheezy-backports-sloppy state=installed
+#  with_items:
+#    - collectd
+#    - collectd-core
+#    - collectd-utils
 
 - name: Upgrade Python pip
   pip: name=pip state=latest

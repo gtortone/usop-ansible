@@ -9,4 +9,6 @@ ntp:
   - 1.europe.pool.ntp.org
   - 0.europe.pool.ntp.org
 
-collector_url: http://10.1.1.10:8000/put/
+collector_url: https://nblupo:9000/put/
+collector_user: admin
+collector_pass: 4dm1n

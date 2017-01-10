@@ -16,7 +16,7 @@ MAXWAIT=60
 # default: 0
 ENABLE_COREFILES=0
 
-{% if proxy %}
+{% if proxy is defined %}
 export HTTPS_PROXY="{{proxy}}"
 export HTTP_PROXY="{{proxy}}"
 export http_proxy="{{proxy}}"
