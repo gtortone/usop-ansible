@@ -10,3 +10,7 @@ ntp:
   - ntp-1.infn.it
   - ntp-2.infn.it
   - ntp-3.infn.it
+
+collector_url: https://b2ecl.na.infn.it:8800/put/
+collector_user: admin
+collector_pass: 4dm1n
