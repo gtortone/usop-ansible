@@ -15,6 +15,5 @@ ntp:
   - 2.asia.pool.ntp.org
   - 3.asia.pool.ntp.org
 
-collector_url: https://b2ecl.na.infn.it:8800/put/
-collector_user: admin
-collector_pass: 4dm1n
+collectors:
+  - {id: "infn", url: "https://b2ecl.na.infn.it:8800/put/", user: "admin", pass: "4dm1n"}

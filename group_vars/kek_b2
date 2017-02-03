@@ -12,7 +12,6 @@ ntp:
 
 proxy: http://172.22.48.7:8080
 
-collector_url: https://b2ecl.na.infn.it:8800/put/
-collector_user: admin
-collector_pass: 4dm1n
-
+collectors:
+  - {id: "infn", url: "https://b2ecl.na.infn.it:8800/put/", user: "admin", pass: "4dm1n"}
+  - {id: "kek", url: "https://usopmon01.b2epics.kek.jp:8800/put/", user: "admin", pass: "4dm1n"}

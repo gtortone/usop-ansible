@@ -31,7 +31,7 @@
     - pyepics
     - pyyaml
 
-- name: Configure collectd with collector URL {{collector_url}}
+- name: Configure collectd with collector URL(s)
   template: src=collectd.j2 dest=/etc/collectd/collectd.conf
   notify:
     - Restart collectd

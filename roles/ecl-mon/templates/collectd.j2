@@ -47,14 +47,17 @@ Interval 60
 </Plugin>
 
 <Plugin write_http>
-  <Node "http-collector">
-    URL "{{collector_url}}"
-    User "{{collector_user}}"
-    Password "{{collector_pass}}"
+{% for h in collectors %}
+  <Node "{{h.id}}">
+    URL "{{h.url}}"
+    User "{{h.user}}"
+    Password "{{h.pass}}"
     VerifyHost false
     VerifyPeer false
     Format "JSON"
     BufferSize 1024
     StoreRates true
   </Node>
+{% endfor %}
 </Plugin>
+
