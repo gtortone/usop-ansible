@@ -22,3 +22,7 @@ export HTTP_PROXY="{{proxy}}"
 export http_proxy="{{proxy}}"
 export https_proxy="{{proxy}}"
 {% endif %}
+
+{% if no_proxy is defined %}
+export no_proxy="{{no_proxy}}"
+{% endif %}
