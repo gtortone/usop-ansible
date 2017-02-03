@@ -16,4 +16,4 @@ ecl_ioc_first_sector: 1
 # ECL IOC sector name suffix
 #ecl_ioc_sec_suffix: F
 
-sector_list: [ "{{ecl_ioc_sec_prefix}}7F", "{{ecl_ioc_sec_prefix}}8F", "{{ecl_ioc_sec_prefix}}9B", "{{ecl_ioc_sec_prefix}}10B" ]
+sector_list: [ "{{ecl_ioc_sec_prefix}}9B", "{{ecl_ioc_sec_prefix}}10B", "{{ecl_ioc_sec_prefix}}7F", "{{ecl_ioc_sec_prefix}}8F" ]
